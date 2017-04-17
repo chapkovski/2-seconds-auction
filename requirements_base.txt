@@ -2,3 +2,4 @@ otree-core>=1.1.2
 Django==1.8.8 # for heroku, needs to be explicitly in requirements file
 git+git://github.com/HealthTechDevelopers/celery@master#celery
 django-celery-beat==1.0.1
+pytz==2016.6.1
