@@ -18,10 +18,11 @@ INSTALLED_APPS =  [ 'otree',
                     'ebay',
                     'celery',
                     'django_celery_beat']
-
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379')
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://localhost:6379')
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_IMPORTS = ("ebay.tasks",)
-CELERY_RESULT_BACKEND = 'redis://localhost'
+# CELERY_RESULT_BACKEND = 'redis://localhost'
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
