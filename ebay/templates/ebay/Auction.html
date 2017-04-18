@@ -6,13 +6,66 @@
 {% endblock %}
 
 {% block content %}
+  <div>current price: <b><span id="price"></span></b></div>
+  <br>
 
-AUCTION!!! <br>
-
-{{form}}
-<br>
-{% next_button%}
-
+  {{form}}
+  <br>
+  {% next_button%}
+{% endblock %}
 
 
+
+{% block scripts %}
+  <script>
+  var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+  var socket = new WebSocket(ws_scheme + '://' + window.location.host + "/ebay/group{{group.pk}}");
+    window.onload = function() {
+      var curprice = {{group.price}};
+      $('#price').html(curprice);
+
+
+
+      // Handle any errors that occur.
+      socket.onerror = function(error) {
+        console.log('WebSocket Error: ' + error);
+      };
+
+      // Show a connected message when the WebSocket is opened.
+      socket.onopen = function(event) {
+        console.log('connected to oTree');
+      };
+
+      // Handle messages sent by the server.
+      socket.onmessage = function(event) {
+          console.log('message incoming...');
+
+        var obj = jQuery.parseJSON(event.data);
+        console.log(obj.price);
+        curprice = obj.price;
+
+        $('#price').html(curprice);
+      };
+
+      // Show a disconnected message when the WebSocket is closed.
+      socket.onclose = function(event) {
+        console.log('disconnected from oTree');
+      };
+
+
+    };
+    sendmessage = function() {
+      console.log('requesting price...')
+      var msg = {
+              id: {{player.id}},
+              id_in_group: {{player.id_in_group}},
+          };
+          if(socket.readyState === socket.OPEN){
+              socket.send(JSON.stringify(msg));
+          };
+        };
+        window.setInterval(function(){
+      sendmessage();
+      }, 5000);
+  </script>
 {% endblock %}

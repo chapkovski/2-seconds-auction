@@ -7,23 +7,28 @@ from boto.mturk import qualification
 import otree.settings
 # settings.py
 ROOT_URLCONF = 'urls'
-
+CHANNEL_ROUTING = 'ebay.routing.channel_routing'
 INSTALLED_APPS =  [ 'otree',
-                    # 'django.contrib.admin',
-                    # 'django.contrib.auth',
-                    # 'django.contrib.contenttypes',
-                    # 'django.contrib.sessions',
-                    # 'django.contrib.messages',
-                    # 'django.contrib.staticfiles',
                     'ebay',
                     'celery',
                     'django_celery_beat']
-BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379')
-CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://localhost:6379')
+CELERY_BROKER_URL = environ.get('REDIS_URL', 'redis://localhost:6379')
+
+CELERY_RESULT_BACKEND = environ.get('REDIS_URL', 'redis://localhost:6379')
+
 # CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_IMPORTS = ("ebay.tasks",)
 # CELERY_RESULT_BACKEND = 'redis://localhost'
 
+# CHANNEL_LAYERS = {
+#     "default": {
+#         # "BACKEND": "asgi_redis.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("localhost", 6379)],
+#         },
+#         "ROUTING": "ebay.routing.channel_routing",
+#     },
+# }
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 

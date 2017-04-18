@@ -7,10 +7,14 @@ import time
 import datetime
 import json
 from django_celery_beat.models import PeriodicTask, PeriodicTasks, IntervalSchedule
+from channels import Group, Channel
+
+
 
 class Auction(Page):
 
     def is_displayed(self):
+
         schedule, created = IntervalSchedule.objects.get_or_create(
              every=2,
              period=IntervalSchedule.SECONDS,

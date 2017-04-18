@@ -5,6 +5,7 @@ from otree.api import (
 import random
 import time
 import datetime
+import channels
 from django_celery_beat.models import PeriodicTask, PeriodicTasks, IntervalSchedule
 author = 'Filipp Chapkovskii, UZH, chapkovski@gmail.com'
 
@@ -38,3 +39,16 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     ...
+
+
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
+
+@receiver(pre_save)
+def incident_post_save(sender, **kwargs):
+    print('GROUP MODEL HAS BEEN JUST SAVED YOUPTA!:::', sender)
+    channels.Channel("braintree_process").send({
+        "group_pk": 'sender.pk',
+        "price": 'sender.price',
+    })
+    print('SENDING MESSAGE TO GROUP>>>>>>{}')
