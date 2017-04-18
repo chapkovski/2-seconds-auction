@@ -7,14 +7,7 @@ Filipp Chapkovski, University of Zurich
 The general task: to make an auction where the price for the group is updated
 each n seconds (in our case each 2 seconds).
 
-This is a ___***prototype***___ - it works but some crucial parts are missing.
-What is missing are channels (websockets), to update the price shown to the
-final users so they can leave the auction when they want to.
-
-You can see how to implement it in other examples.
-like here: https://github.com/chapkovski/for-max-upd-ebay-second-price
-or here: https://github.com/chapkovski/miniebay
-(a working app for an example above is here: https://mini-ebay-otree.herokuapp.com/)
+This is a ___***prototype***___ - it works but some parts are missing.
 
 To update the price at the server side at the regular basis we need to use
 periodic tasks (http://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html)
@@ -72,6 +65,4 @@ as soon as the last player leaves the page, but that's easy to do.
 
 So if you start this app, start the processes, and you'll navigate to the Auction page,
 you will see in the admin - data page, that the price keeps growing every 2 seconds.
-
-The only thing you need to do is to add the channels: each time the price is changed, the
-message should be pushed via channels so the players can see the price update.
+s
